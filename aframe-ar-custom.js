@@ -9953,9 +9953,9 @@
                 return g && this.data.minDistance && this.data.minDistance > 0 && B < this.data.minDistance || g && this.data.maxDistance && this.data.maxDistance > 0 && B > this.data.maxDistance ? Number.MAX_SAFE_INTEGER : B
             },
             _haversineDist: function(A, g) {
-                var B = I.MathUtils.degToRad(g.longitude - A.longitude)
-                  , C = I.MathUtils.degToRad(g.latitude - A.latitude)
-                  , Q = Math.sin(C / 2) * Math.sin(C / 2) + Math.cos(I.MathUtils.degToRad(A.latitude)) * Math.cos(I.MathUtils.degToRad(g.latitude)) * (Math.sin(B / 2) * Math.sin(B / 2));
+                var B = I.Math.degToRad(g.longitude - A.longitude)
+                  , C = I.Math.degToRad(g.latitude - A.latitude)
+                  , Q = Math.sin(C / 2) * Math.sin(C / 2) + Math.cos(I.Math.degToRad(A.latitude)) * Math.cos(I.Math.degToRad(g.latitude)) * (Math.sin(B / 2) * Math.sin(B / 2));
                 return 2 * Math.atan2(Math.sqrt(Q), Math.sqrt(1 - Q)) * 6371e3
             },
             _computeCompassHeading: function(A, I, g) {
