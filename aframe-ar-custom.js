@@ -9028,6 +9028,9 @@
                 patternUrl: {
                     type: "string"
                 },
+                descriptorsUrl: {
+                    type: "string"
+                },
                 barcodeValue: {
                     type: "number"
                 },
@@ -9080,8 +9083,10 @@
                             changeMatrixMode: "modelViewMatrix",
                             barcodeValue: A.data.barcodeValue,
                             markersAreaEnabled: !1
-                        } : "pattern" === A.data.type && (C.type = A.data.type,
+                        } : "pattern" === A.data.type ? (C.type = A.data.type,
                         C.patternUrl = A.data.patternUrl,
+                        C.markersAreaEnabled = !1) : "nft" === A.data.type && (C.type = A.data.type,
+                        C.descriptorsUrl = A.data.descriptorsUrl,
                         C.markersAreaEnabled = !1),
                         C.minConfidence = A.data.minConfidence,
                         C.smooth = A.data.smooth,
@@ -9150,6 +9155,23 @@
             },
             mappings: {}
         })),
+        A.registerPrimitive("a-nft", A.utils.extendDeep({}, A.primitives.getMeshMixin(), {
+            defaultComponents: {
+                "arjs-anchor": {},
+                "arjs-hit-testing": {}
+            },
+            mappings: {
+                type: "arjs-anchor.type",
+                url: "arjs-anchor.descriptorsUrl",
+                size: "arjs-anchor.size",
+                smooth: "arjs-anchor.smooth",
+                "smooth-count": "arjs-anchor.smoothCount",
+                "smooth-tolerance": "arjs-anchor.smoothTolerance",
+                "smooth-threshold": "arjs-anchor.smoothThreshold",
+                "hit-testing-render-debug": "arjs-hit-testing.renderDebug",
+                "hit-testing-enabled": "arjs-hit-testing.enabled"
+            }
+        })),
         A.registerPrimitive("a-marker", A.utils.extendDeep({}, A.primitives.getMeshMixin(), {
             defaultComponents: {
                 "arjs-anchor": {},
@@ -9182,6 +9204,7 @@
                 type: "arjs-anchor.type",
                 size: "arjs-anchor.size",
                 url: "arjs-anchor.patternUrl",
+                descriptorsUrl: "arjs-anchor.descriptorsUrl",
                 value: "arjs-anchor.barcodeValue",
                 preset: "arjs-anchor.preset",
                 "min-confidence": "arjs-anchor.minConfidence",
@@ -11007,20 +11030,7 @@
             }
             ));
             var C = g.arContext = new F(A.contextParameters);
-            function Q() {
-                return g ? (console.log("actual source dimensions", B.domElement.clientWidth, B.domElement.clientHeight),
-                B.domElement.clientWidth > B.domElement.clientHeight ? (console.log("source orientation", "landscape"),
-                "landscape") : (console.log("source orientation", "portrait"),
-                "portrait")) : null
-            }
-            window.addEventListener("arjs-video-loaded", (function() {
-                g.arContext.init((()=>{
-                    g.arContext.arController.orientation = Q(),
-                    g.arContext.arController.options.orientation = Q()
-                }
-                ))
-            }
-            )),
+            g.arContext.init(),
             C.addEventListener("initialized", (function(A) {
                 B.onResize(C, g.parameters.renderer, g.parameters.camera)
             }
